@@ -1,2 +1,5 @@
-1. npm install
-2. npm run dev
+STEPS FOR INSTALLATION
+
+1. git clone 
+2. npm install
+3. npm run dev
