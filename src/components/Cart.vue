@@ -25,7 +25,7 @@ const addedProductsPrice = computed(() => addedToCart.value.map(prod => prod.pri
       Total:
     </div>
     <div class="price">
-      $ {{addedProductsPrice}}
+      $ {{addedProductsPrice.toFixed(2)}}
     </div>
   </div>
 </div>
