@@ -1,4 +1,6 @@
 <script setup>
+import {computed} from "vue";
+
 const props = defineProps({
   id: Number,
   title: String,
@@ -10,30 +12,31 @@ const props = defineProps({
 import {useProductsStore} from "../stores/products.js";
 const productsStore = useProductsStore();
 const {addToCart} = productsStore
+
+const isUnavailable = computed(() => props.status === 'unavailable')
 </script>
 
 <template>
 <div class="container">
-  <div class="image">
-    <img :src="imageUrl" :alt="title">
+  <div class="image" :style="{ 'background-image': 'url(' + imageUrl + ')' }">
   </div>
   <div class="title-with-description-and-actions">
     <div class="title-with-price">
-      <div class="title">
+      <div class="minimal-title">
           {{title}}
       </div>
       <div class="price">
           $ {{price}}
       </div>
     </div>
-    <div v-if="status === 'Unavailable'" class="unavailable-box">
+    <div v-if="isUnavailable" class="unavailable-box">
       Unavailable
     </div>
     <div class="description">
         {{description}}
     </div>
     <div class="action">
-      <button :disabled="status === 'Unavailable'" @click="e => addToCart(
+      <button :class="isUnavailable ? '' : 'add-to-cart-button'" :disabled="isUnavailable" @click="e => addToCart(
           {
           id,
           title,
@@ -56,42 +59,51 @@ const {addToCart} = productsStore
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   margin-bottom: 20px;
-  padding: 10px;
-  height: 200px;
+  padding: 20px 0;
+  height: 160px;
 }
 
 .unavailable-box {
-  border: 2px solid red;
-  color: red;
+  border: 2px solid #d22449;
+  color: #d22449;
+  padding: 7.5px;
   background-color: white;
-  font-weight: 600;
+  font-weight: 540;
+  line-height: 1;
+  letter-spacing: 1px;
   position: absolute;
-  font-size: 1.5rem;
+  font-size: 1.9rem;
+  text-transform: uppercase;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  rotate: -10deg;
+  font-family: "Arial";
 }
 .title-with-price {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-weight: 600;
+  align-items: center;
 }
 
-.title {
-  font-size: 1.3rem;
+.price {
+  font-weight: 980;
 }
+
 .description {
-  height: 130px;
+  height: 75px;
   overflow: auto;
+  color: #0d0000;
+  font-size: 1.5rem;
 }
 .action {
   margin-top: 5px;
 }
 .image {
   width: 300px;
-  overflow: clip;
-  text-align: center;
+  background-size: cover;
+  background-position: center;
 }
 
 .image img {
@@ -102,6 +114,26 @@ const {addToCart} = productsStore
 .title-with-description-and-actions {
   position: relative;
   width: 100%;
+}
+
+.add-to-cart-button {
+  background-color: white;
+  padding: 2px 4px;
+  font-weight: 600;
+  color: black;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.add-to-cart-button:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.add-to-cart-button:active {
+  background-color: white;
+  color: black;
+  cursor: pointer;
 }
 
 </style>

@@ -13,6 +13,9 @@ const addedProductsPrice = computed(() => addedToCart.value.map(prod => prod.pri
 
 <template>
 <div>
+  <div class="minimal-title">
+    SHOPPING <wbr> CART
+  </div>
   <AddedProduct
     v-for="prod in addedToCart"
     :key="prod.id"

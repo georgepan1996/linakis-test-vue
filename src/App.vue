@@ -1,73 +1,58 @@
 <script setup>
-import {storeToRefs} from "pinia";
-import {computed} from "vue";
-
-import  {useProductsStore} from "./stores/products.js";
-const productsStore = useProductsStore()
-const {addedToCart} = storeToRefs(productsStore)
-const {getSum} = productsStore
-
-import {useRouter} from "vue-router";
-const router = useRouter();
-
-console.log({router})
-function goToCart () {
-  router.push(
-      {name: 'cart'}
-  )
-}
-
-const addedProductsNum = computed(() => addedToCart.value.map(prod => prod.quantity).reduce(getSum, 0))
+import ProductList from "./components/ProductList.vue";
+import Cart from "./components/Cart.vue";
+import Inventory from "./components/Inventory.vue";
 </script>
 
 <template>
-  <div>
-    <header class="main-header">
-      <h1 class="company-logo">FISH STORE</h1>
-      <div class="cart" @click="goToCart">Cart ({{addedProductsNum}})</div>
-    </header>
-    <nav>
-      <div class="link">
-        <router-link :to="'/product_list'">Products</router-link>
-      </div>
-
-    </nav>
-    <main>
-      <router-view />
-    </main>
-    <footer>
-
-    </footer>
+  <div class="sections-container">
+    <div class="section products">
+      <ProductList/>
+    </div>
+    <div class="section cart">
+      <Cart />
+    </div>
+    <div class="section inventory">
+      <Inventory/>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.main-header {
-  text-align: center;
-  padding-top: 20px;
-  text-transform: uppercase;
+.sections-container {
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  flex-wrap: wrap;
+  height: 100%;
 }
-.company-logo {
-  letter-spacing: 5px;
-  font-size: 5vw;
-  font-family: 'Quicksand', sans-serif;
+
+@media only screen and (max-width: 1300px) {
+  .sections-container {
+    flex-direction: column;
+  }
+}
+.products, .inventory {
+  flex: 2;
 }
 .cart {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  flex: 1;
 }
-.cart:hover {
-  cursor: pointer;
-  color: #fbdd7e;
+.section {
+  border: 2px solid black;
+  border-collapse: collapse;
+  padding: 20px;
+  height: 100%;
+  overflow: auto;
+  outline: white solid 5px;
 }
-
-.link {
-  text-align: center;
-  text-decoration: none;
-  font-size: 1.5rem;
-
+.double-border {
+  display: block;
+  clear: both;
+  background: red;
+  border: 5px solid yellow;
+  outline: 5px solid blue;
+  height: 50px;
+  width: 50px;
 }
 </style>

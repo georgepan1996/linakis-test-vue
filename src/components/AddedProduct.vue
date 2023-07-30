@@ -28,9 +28,8 @@ const {getTotalPrice} = productsStore
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-top: 2px solid black;
   border-bottom: 2px solid black;
-  padding: 20px 0;
   margin: 20px 0;
+  padding-bottom: 20px;
 }
 </style>
